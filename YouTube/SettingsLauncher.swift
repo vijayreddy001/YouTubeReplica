@@ -8,6 +8,23 @@
 
 import UIKit
 
+class Setting {
+    let name: SettingName
+    let imageName: String
+    
+    init(name:String, imageName:String) {
+        self.name = SettingName(rawValue: name)!
+        self.imageName = imageName
+    }
+}
+enum SettingName: String {
+    case Settings = "Settings"
+    case TermsPrivacy = "Terms & privacy policy"
+    case SendFeedback = "Send feedback"
+    case Help = "Help"
+    case SwichAccount = "Switch Account"
+    case Cancel = "Cancel"
+    }
 class SettingsLauncher: NSObject, UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
     let blackView = UIView()
@@ -21,7 +38,14 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate,UICollectionViewDataS
     let cellId = "cellId"
     let cellHeight: CGFloat = 50
     let settings: [Setting] = {
-        return [Setting(name: "Settings",imageName: "settings"),Setting(name: "Terms & privacy policy",imageName: "privacy"),Setting(name: "Send Feedback",imageName: "feedback"), Setting(name: "Help",imageName: "help"),Setting(name: "Switch Account",imageName: "switch_account"), Setting(name: "Cancel",imageName: "cancel") ]
+        
+        let settingSetting = Setting(name: SettingName.Settings.rawValue, imageName: "settings")
+        let termsSetting = Setting(name: SettingName.TermsPrivacy.rawValue, imageName: "privacy")
+        let feedbackSetting = Setting(name: SettingName.SendFeedback.rawValue,imageName: "feedback")
+        let helpSetting = Setting(name: SettingName.Help.rawValue,imageName: "help")
+        let switchSetting = Setting(name: SettingName.SwichAccount.rawValue,imageName: "switch_account")
+        let cancelSetting = Setting(name: SettingName.Cancel.rawValue,imageName: "cancel")
+        return [settingSetting,termsSetting,feedbackSetting,helpSetting,switchSetting,cancelSetting]
     }()
     
     var homecontroller: HomeViewController?
@@ -95,7 +119,7 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate,UICollectionViewDataS
         }) { (Bool) in
            
             let setting = self.settings[indexPath.item]
-            if setting.name != "Cancel" {
+            if setting.name != .Cancel {
             self.homecontroller?.showControllerForSettings(setting: setting)
             }
             

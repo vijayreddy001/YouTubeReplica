@@ -8,15 +8,7 @@
 
 import UIKit
 
-class Setting {
-    let name: String
-    let imageName: String
-    
-    init(name:String, imageName:String) {
-        self.name = name
-        self.imageName = imageName
-    }
-}
+
 class SettingCell: BaseCell {
   
     override var isHighlighted: Bool {
@@ -29,7 +21,7 @@ class SettingCell: BaseCell {
 
     var settingItems:Setting? {
         didSet {
-            label.text = settingItems?.name
+            label.text = (settingItems?.name).map { $0.rawValue }
             if let imageName = settingItems?.imageName
             {
                 iconImageView.image = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
