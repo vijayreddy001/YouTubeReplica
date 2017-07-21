@@ -79,10 +79,22 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
     func handleSearch() {
         print("Handle search here")
     }
-    let settingsLauncher = SettingsLauncher()
+   lazy var settingsLauncher: SettingsLauncher = {
+        let settingsLauncher = SettingsLauncher()
+        settingsLauncher.homecontroller = self
+        return settingsLauncher
+    }()
     
     func handleMore() {
         settingsLauncher.showSettings()
+    }
+    func showControllerForSettings(setting: Setting) {
+        let dummyViewController = UIViewController()
+        dummyViewController.navigationItem.title = setting.name
+        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        dummyViewController.view.backgroundColor = UIColor.white
+        navigationController?.pushViewController(dummyViewController, animated: true)
     }
     func setupMenuBar() {
         view.addSubview(menuBar)

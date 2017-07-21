@@ -17,6 +17,7 @@
 		B060A1651F1D3EB400516410 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B060A1641F1D3EB400516410 /* MenuBar.swift */; };
 		B060A1681F1D8FD200516410 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = B060A1671F1D8FD200516410 /* Video.swift */; };
 		B060A16A1F20621200516410 /* SettingsLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B060A1691F20621200516410 /* SettingsLauncher.swift */; };
+		B060A16C1F21A89100516410 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B060A16B1F21A89100516410 /* SettingCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		B060A1641F1D3EB400516410 /* MenuBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		B060A1671F1D8FD200516410 /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		B060A1691F20621200516410 /* SettingsLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsLauncher.swift; sourceTree = "<group>"; };
+		B060A16B1F21A89100516410 /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 			children = (
 				B060A1611F1CAAD700516410 /* VideoCell.swift */,
 				B060A1641F1D3EB400516410 /* MenuBar.swift */,
+				B060A16B1F21A89100516410 /* SettingCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -185,6 +188,7 @@
 			files = (
 				B060A14E1F199F3D00516410 /* HomeController.swift in Sources */,
 				B060A1681F1D8FD200516410 /* Video.swift in Sources */,
+				B060A16C1F21A89100516410 /* SettingCell.swift in Sources */,
 				B060A1621F1CAAD700516410 /* VideoCell.swift in Sources */,
 				B060A16A1F20621200516410 /* SettingsLauncher.swift in Sources */,
 				B060A15F1F1CAA0400516410 /* Extensions.swift in Sources */,
