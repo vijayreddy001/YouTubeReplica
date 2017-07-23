@@ -15,10 +15,9 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        //navigationItem.title = "Home"
         let titleView = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width-32, height: view.frame.height))
         titleView.textColor = UIColor.white
-        titleView.text = "Home"
+        titleView.text = "  Home"
         titleView.font = UIFont.systemFont(ofSize: 20)
         navigationItem.titleView = titleView
         navigationController?.navigationBar.isTranslucent = false
@@ -34,38 +33,12 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
     
     func fetchVideos() {
         
-        let url = URL(string: "https://s3-us-west-2.amazonaws.com/youtubeassets/home.json")
-        let session = URLSession.shared // or let session = URLSession(configuration: URLSessionConfiguration.default)
-        if let usableUrl = url {
-            let task = session.dataTask(with: usableUrl, completionHandler: { (data, response, error) in
-                if let data = data {
-                    //JSONSerialization
-                    do {
-                        let json = try JSONSerialization.jsonObject(with: data)
-                        self.videos = [Video]()
-                        for dictionary in json as! [[String: Any]] {
-                            let video = Video()
-                            video.title = dictionary["title"] as? String
-                            video.thumbnailImageName = dictionary["thumbnail_image_name"] as? String
-                            let channelItems = dictionary["channel"] as! [String:Any]
-                            let channel = Channel()
-                            channel.name = channelItems["name"] as? String
-                            channel.profileImageName = channelItems["profile_image_name"] as? String
-                            video.channel = channel
-                            self.videos?.append(video)
-                        }
-                        DispatchQueue.main.async {
-                            self.collectionView?.reloadData()
-                            
-                        }
-                    } catch {
-                        print(error)
-                    }
-                }
-            })
-            task.resume()
+        ApiService.sharedInstance.fetchVideos { (videos: [Video]) in
+            self.videos = videos
+            self.collectionView?.reloadData()
+
         }
-    }
+            }
     
     let menuBar: MenuBar = {
         let mb = MenuBar()
@@ -97,10 +70,19 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
         navigationController?.pushViewController(dummyViewController, animated: true)
     }
     func setupMenuBar() {
+        navigationController?.hidesBarsOnSwipe = true
+        
+        let redView = UIView()
+        redView.backgroundColor = UIColor.rgb(red: 232, green: 32, blue: 31)
+        view.addSubview(redView)
+        view.addConstraintsWithFormat(format: "H:|[v0]|", views: redView)
+        view.addConstraintsWithFormat(format: "V:[v0(50)]", views: redView)
+        
         view.addSubview(menuBar)
         view.addConstraintsWithFormat(format: "H:|[v0]|", views: menuBar)
-        view.addConstraintsWithFormat(format: "V:|[v0(50)]", views: menuBar)
-        
+        view.addConstraintsWithFormat(format: "V:[v0(50)]", views: menuBar)
+       // this will pin to the top most layout to the menu bar
+        menuBar.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

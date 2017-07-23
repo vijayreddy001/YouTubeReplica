@@ -75,14 +75,7 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate,UICollectionViewDataS
             self.collectionView.frame = CGRect(x: 0, y: y, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
             
         }, completion: nil)
-        
-        /*       UIView.animate(withDuration: 0.5, animations: {
-                    self.blackView.alpha = 1
-        
-                    self.collectionView.frame = CGRect(x: 0, y: y, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
-        
-                })   */
-        
+    
     }
     
     func handleDismiss()

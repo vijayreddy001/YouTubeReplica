@@ -12,6 +12,7 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
    
     let cellId = "cellId"
     let imageNames = ["home","trending","subscriptions","account"]
+    var horizontalBarLeftConstraint: NSLayoutConstraint?
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -23,11 +24,37 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
     }()
     override init(frame: CGRect) {
         super.init(frame: frame)
+        collectionView.register(MenuCell.self, forCellWithReuseIdentifier: cellId)
         addSubview(collectionView)
         addConstraintsWithFormat(format: "H:|[v0]|", views: collectionView)
         addConstraintsWithFormat(format: "V:|[v0]|", views: collectionView)
-                collectionView.register(MenuCell.self, forCellWithReuseIdentifier: cellId)
         
+        setUpHorizontalBar()
+        
+    }
+    
+    func setUpHorizontalBar() {
+        let horizonatlBarView = UIView()
+        horizonatlBarView.backgroundColor = UIColor(white: 0.95, alpha: 1)
+        horizonatlBarView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(horizonatlBarView)
+        horizontalBarLeftConstraint =   horizonatlBarView.leftAnchor.constraint(equalTo: self.leftAnchor)
+        horizontalBarLeftConstraint?.isActive = true
+        horizonatlBarView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        horizonatlBarView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/4).isActive = true
+        horizonatlBarView.heightAnchor.constraint(equalToConstant: 4).isActive = true
+        
+        
+        
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let x = CGFloat(indexPath.item) * frame.width / 4
+        horizontalBarLeftConstraint?.constant = x
+        
+        UIView.animate(withDuration: 0.75, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: { 
+            self.layoutIfNeeded()
+        }, completion: nil)
+
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
