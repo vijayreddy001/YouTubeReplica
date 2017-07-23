@@ -12,6 +12,7 @@ class ApiService: NSObject {
     
 static let sharedInstance = ApiService()
     
+    //trailing closure implementation
     func fetchVideos(completion: @escaping ([Video]) ->()) {
         let url = URL(string: "https://s3-us-west-2.amazonaws.com/youtubeassets/home.json")
         let session = URLSession.shared // or let session = URLSession(configuration: URLSessionConfiguration.default)

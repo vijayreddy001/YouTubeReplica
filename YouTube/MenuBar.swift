@@ -13,6 +13,7 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
     let cellId = "cellId"
     let imageNames = ["home","trending","subscriptions","account"]
     var horizontalBarLeftConstraint: NSLayoutConstraint?
+    var homeController: HomeViewController?
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -33,6 +34,7 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
         
     }
     
+    //Instead of closures why we used functions
     func setUpHorizontalBar() {
         let horizonatlBarView = UIView()
         horizonatlBarView.backgroundColor = UIColor(white: 0.95, alpha: 1)
@@ -48,12 +50,14 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
         
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let x = CGFloat(indexPath.item) * frame.width / 4
-        horizontalBarLeftConstraint?.constant = x
+//        let x = CGFloat(indexPath.item) * frame.width / 4
+//        horizontalBarLeftConstraint?.constant = x
+//
+//        UIView.animate(withDuration: 0.75, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: { 
+//            self.layoutIfNeeded()
+//        }, completion: nil)
         
-        UIView.animate(withDuration: 0.75, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: { 
-            self.layoutIfNeeded()
-        }, completion: nil)
+        homeController?.scrollToMenuIndex(menuIndex: indexPath.item)
 
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
