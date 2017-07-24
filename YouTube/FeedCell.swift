@@ -24,11 +24,10 @@ class FeedCell: BaseCell, UICollectionViewDelegate, UICollectionViewDataSource, 
     func fetchVideos() {
         
         //trailing closure implementation
-        ApiService.sharedInstance.fetchVideos { (videos: [Video]) in
+        ApiService.sharedInstance.fetchVideos { (videos) in
             self.videos = videos
             self.collectionView.reloadData()
-            
-        }
+            }
     }
 
     override func setupViews() {
