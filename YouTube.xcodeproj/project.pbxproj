@@ -22,6 +22,7 @@
 		B060A19E1F25381300516410 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B060A19D1F25381300516410 /* FeedCell.swift */; };
 		B060A1A01F266C1200516410 /* TrendingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B060A19F1F266C1200516410 /* TrendingCell.swift */; };
 		B060A1A21F2673D600516410 /* SubscriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B060A1A11F2673D600516410 /* SubscriptionCell.swift */; };
+		B060A1A41F27A95100516410 /* VideoLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B060A1A31F27A95100516410 /* VideoLauncher.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		B060A19D1F25381300516410 /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		B060A19F1F266C1200516410 /* TrendingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendingCell.swift; sourceTree = "<group>"; };
 		B060A1A11F2673D600516410 /* SubscriptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionCell.swift; sourceTree = "<group>"; };
+		B060A1A31F27A95100516410 /* VideoLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoLauncher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				B060A15E1F1CAA0400516410 /* Extensions.swift */,
+				B060A1A31F27A95100516410 /* VideoLauncher.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 				B060A16C1F21A89100516410 /* SettingCell.swift in Sources */,
 				B060A1621F1CAAD700516410 /* VideoCell.swift in Sources */,
 				B060A16A1F20621200516410 /* SettingsLauncher.swift in Sources */,
+				B060A1A41F27A95100516410 /* VideoLauncher.swift in Sources */,
 				B060A19C1F241FF600516410 /* ApiService.swift in Sources */,
 				B060A15F1F1CAA0400516410 /* Extensions.swift in Sources */,
 				B060A14C1F199F3D00516410 /* AppDelegate.swift in Sources */,

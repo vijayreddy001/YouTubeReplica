@@ -30,32 +30,68 @@ static let sharedInstance = ApiService()
         let session = URLSession.shared // or let session = URLSession(configuration: URLSessionConfiguration.default)
         if let usableUrl = url {
             let task = session.dataTask(with: usableUrl, completionHandler: { (data, response, error) in
-                if let data = data {
-                    //JSONSerialization
+               
+                if error != nil {
+                    print(error!)
+                    return
+                }
+                  //JSONSerialization
                     do {
-                        let json = try JSONSerialization.jsonObject(with: data)
-                        var videos = [Video]()
-                        for dictionary in json as! [[String: Any]] {
-                            let video = Video()
-                            video.title = dictionary["title"] as? String
-                            video.thumbnailImageName = dictionary["thumbnail_image_name"] as? String
-                            let channelItems = dictionary["channel"] as! [String:Any]
-                            let channel = Channel()
-                            channel.name = channelItems["name"] as? String
-                            channel.profileImageName = channelItems["profile_image_name"] as? String
-                            video.channel = channel
-                            videos.append(video)
-                        }
-                        DispatchQueue.main.async {
-                            completion(videos)
-                        }
+                        if let unwrappedData = data, let jsonDictionaries = try JSONSerialization.jsonObject(with: unwrappedData) as? [[String:Any]] {
+                                DispatchQueue.main.async {
+                                    completion(jsonDictionaries.map({return Video(dictionary: $0)}))
+                                }
+                            }
+                        
                     } catch {
                         print(error)
                     }
-                }
+                
             })
             task.resume()
         }
     }
     
 }
+
+
+//let json = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers)
+//
+//var videos = [Video]()
+//
+//for dictionary in json as! [[String: AnyObject]] {
+//
+//    let video = Video()
+//    video.title = dictionary["title"] as? String
+//    video.thumbnailImageName = dictionary["thumbnail_image_name"] as? String
+//
+//    let channelDictionary = dictionary["channel"] as! [String: AnyObject]
+//
+//    let channel = Channel()
+//    channel.name = channelDictionary["name"] as? String
+//    channel.profileImageName = channelDictionary["profile_image_name"] as? String
+//
+//    video.channel = channel
+//
+//    videos.append(video)
+//}
+//
+//dispatch_async(dispatch_get_main_queue(), {
+//    completion(videos)
+//})
+
+
+
+
+//                    let numbersArray = [1, 2, 3]
+//                    let doubledNumbersArray = numbersArray.map({return $0 * 2})
+//                    let stringsArray = numbersArray.map({return "\($0 * 2)"})
+//                    print(stringsArray)
+
+//                    var videos = [Video]()
+//
+//                    for dictionary in jsonDictionaries {
+//                        let video = Video(dictionary: dictionary)
+//                        videos.append(video)
+//                    }
+
