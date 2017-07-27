@@ -32,6 +32,43 @@ class VidepPlayerView: UIView {
     
     var isPlaying = true
 
+   
+    let controllsContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(white: 0, alpha: 1)
+        return view
+    }()
+    
+    let currentTimeLable: UILabel = {
+        let label = UILabel()
+        label.text = "00:00"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.textColor = UIColor.white
+        label.textAlignment = .left
+        return label
+    }()
+    
+    let videoLengthLabel: UILabel = {
+        let label = UILabel()
+        label.text = "00:00"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.textColor = UIColor.white
+        label.textAlignment = .right
+        return label
+    }()
+    
+    let videoSlider: UISlider = {
+        let slider = UISlider()
+        slider.minimumTrackTintColor = UIColor.red
+        slider.maximumTrackTintColor = UIColor.white
+        slider.setThumbImage(UIImage(named: "thumb"), for: .normal)
+        slider.translatesAutoresizingMaskIntoConstraints = false
+        slider.addTarget(self, action: #selector(handleSliderChange), for: .valueChanged)
+        return slider
+    }()
+    
     func handlePause() {
         
         if isPlaying {
@@ -44,14 +81,23 @@ class VidepPlayerView: UIView {
         
         isPlaying = !isPlaying
     }
-    let controllsContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(white: 0, alpha: 1)
-        return view
-    }()
+    
+    func handleSliderChange() {
+        
+        print(videoSlider.value)
+        if let duration =  player?.currentItem?.duration {
+             let totalSeconds = CMTimeGetSeconds(duration)
+            let value = Float64(videoSlider.value) * totalSeconds
+            let seekTime = CMTime(value: Int64(value), timescale: 1)
+            player?.seek(to: seekTime, completionHandler: {  completedSeek in
+                //
+            })
+        }
+    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupPlayerView()
+        setupGradientLayer()
         controllsContainerView.frame = frame
         addSubview(controllsContainerView)
         
@@ -67,8 +113,24 @@ class VidepPlayerView: UIView {
         pausePlayButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         pausePlayButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-
-
+        controllsContainerView.addSubview(videoLengthLabel)
+        
+        videoLengthLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
+        videoLengthLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
+        videoLengthLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        videoLengthLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        
+        controllsContainerView.addSubview(currentTimeLable)
+        currentTimeLable.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
+        currentTimeLable.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
+        currentTimeLable.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        currentTimeLable.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        
+        controllsContainerView.addSubview(videoSlider)
+        videoSlider.rightAnchor.constraint(equalTo: videoLengthLabel.leftAnchor).isActive = true
+        videoSlider.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        videoSlider.leftAnchor.constraint(equalTo: currentTimeLable.rightAnchor).isActive = true
+        videoSlider.heightAnchor.constraint(equalToConstant: 30).isActive = true
      
     }
     
@@ -84,6 +146,26 @@ class VidepPlayerView: UIView {
             playerLayer.frame = self.frame
             player?.play()
             player?.addObserver(self, forKeyPath: "currentItem.loadedTimeRanges", options: .new, context: nil)
+            //track player progress
+            
+            let interval = CMTime(value: 1, timescale: 2)
+            player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { (progressTime) in
+                
+                let seconds = CMTimeGetSeconds(progressTime)
+                let secondsString = String(format: "%02d", Int(seconds.truncatingRemainder(dividingBy: 60)))
+                let minutesString = String(format: "%02d", Int(seconds / 60))
+                
+                self.currentTimeLable.text = "\(minutesString):\(secondsString)"
+                
+                //lets move the slider thumb
+                if let duration = self.player?.currentItem?.duration {
+                    let durationSeconds = CMTimeGetSeconds(duration)
+                    
+                    self.videoSlider.value = Float(seconds / durationSeconds)
+                    
+                }
+                
+            })
             
             
         }
@@ -95,9 +177,25 @@ class VidepPlayerView: UIView {
             controllsContainerView.backgroundColor = UIColor.clear
             pausePlayButton.isHidden = false
             //isPlaying = true
+            if let duration = player?.currentItem?.duration {
+                let seconds = CMTimeGetSeconds(duration)
+                let secondsText = seconds.truncatingRemainder(dividingBy: 60)
+               let minutesText = String(format: "%02d", Int(seconds) / 60)
+                let finalSeconds = Int(secondsText)
+                videoLengthLabel.text = "\(minutesText):\(finalSeconds)"
+            }
         }
     }
     
+    func setupGradientLayer() {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = bounds
+        gradientLayer.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
+        gradientLayer.locations = [0.7, 1.2]
+        controllsContainerView.layer.addSublayer(gradientLayer)
+    
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
